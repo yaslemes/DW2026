@@ -1,0 +1,23 @@
+{
+  "name": "dw2026",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/yaslemes/DW2026#readme",
+  "bugs": {
+    "url": "https://github.com/yaslemes/DW2026/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaslemes/DW2026.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev" : "node --watch server.js"
+  },
+  "dependencies": {
+    "fastify": "^5.8.4"
+  }
+}

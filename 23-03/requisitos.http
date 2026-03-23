@@ -1,0 +1,8 @@
+GET http://localhost:3028/ 
+
+###
+GET http://localhost:3028/json
+
+###
+GET http://localhost:3028/html
+
