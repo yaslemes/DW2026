@@ -1,0 +1,21 @@
+{
+  "name": "30-03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "dev-http": "node --watch server_http.js",
+    "dev-fastify": "node --watch server_fastify.js",
+    "dev-express": "node --watch server_express.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "express": "^5.2.1",
+    "fastify": "^5.8.4"
+  }
+}
