@@ -34,3 +34,6 @@ try{
 }catch(erro){
     console.error('Erro ao iniciar', erro)
 }
+
+
+
