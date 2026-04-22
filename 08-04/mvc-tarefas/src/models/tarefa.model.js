@@ -1,94 +1,94 @@
-const tarefas = [
-  { id: 1, descricao: "Fazer compras", concluido: false },
-  { id: 2, descricao: "Lavar o carro", concluido: false },
-  { id: 3, descricao: "Estudar Fastify", concluido: true }
-]
-
-// LISTAR
-export async function listar({ busca, concluido }) {
-  console.log("Model: listar chamado")
-
-  let resultado = tarefas
-
-  if (busca) {
-    resultado = resultado.filter(t =>
-      t.descricao.toLowerCase().includes(busca.toLowerCase())
-    )
+class TarefaModel {
+  constructor() {
+    this.tarefas = [
+      { id: 1, descricao: "Fazer compras", concluido: false },
+      { id: 2, descricao: "Lavar o carro", concluido: false },
+      { id: 3, descricao: "Estudar Fastify", concluido: true }
+    ]
   }
 
-  if (concluido !== undefined) {
-    const concluidoBool = concluido === 'true'
-    resultado = resultado.filter(t => t.concluido === concluidoBool)
+  async listar({ busca, concluido }) {
+    console.log("Model: listar chamado")
+
+    let resultado = this.tarefas
+
+    if (busca) {
+      resultado = resultado.filter(t =>
+        t.descricao.toLowerCase().includes(busca.toLowerCase())
+      )
+    }
+
+    if (concluido !== undefined) {
+      const concluidoBool = concluido === 'true'
+      resultado = resultado.filter(t => t.concluido === concluidoBool)
+    }
+
+    return resultado
   }
 
-  return resultado
+  async criar(descricao) {
+    console.log("Model: criar chamado")
+
+    const novoId = this.tarefas.length > 0
+      ? this.tarefas[this.tarefas.length - 1].id + 1
+      : 1
+
+    const novaTarefa = { id: novoId, descricao, concluido: false }
+
+    this.tarefas.push(novaTarefa)
+    return novaTarefa
+  }
+
+  async buscarPorId(id) {
+    console.log("Model: buscarPorId chamado")
+    return this.tarefas.find(t => t.id === id)
+  }
+
+  async atualizar(id, dados) {
+    console.log("Model: atualizar chamado")
+
+    const index = this.tarefas.findIndex(t => t.id === id)
+    if (index === -1) return null
+
+    this.tarefas[index] = { ...this.tarefas[index], ...dados, id }
+    return this.tarefas[index]
+  }
+
+  async alternarConcluido(id) {
+    console.log("Model: alternarConcluido chamado")
+
+    const tarefa = this.tarefas.find(t => t.id === id)
+    if (!tarefa) return null
+
+    tarefa.concluido = !tarefa.concluido
+    return tarefa
+  }
+
+  async remover(id) {
+    console.log("Model: remover chamado")
+
+    const index = this.tarefas.findIndex(t => t.id === id)
+    if (index === -1) return false
+
+    this.tarefas.splice(index, 1)
+    return true
+  }
+
+  async obterResumo() {
+    console.log("Model: obterResumo chamado")
+
+    const total = this.tarefas.length
+    const concluidas = this.tarefas.filter(t => t.concluido).length
+    const pendentes = total - concluidas
+
+    return { total, concluidas, pendentes }
+  }
+
+  async listarPendentes() {
+    console.log("Model: listarPendentes chamado")
+
+    return this.tarefas.filter(t => !t.concluido)
+  }
 }
 
-// CRIAR
-export async function criar(descricao) {
-  console.log("Model: criar chamado")
-
-  const novoId = tarefas.length > 0 ? tarefas[tarefas.length - 1].id + 1 : 1
-  const novaTarefa = { id: novoId, descricao, concluido: false }
-
-  tarefas.push(novaTarefa)
-  return novaTarefa
-}
-
-// BUSCAR POR ID
-export async function buscarPorId(id) {
-  console.log("Model: buscarPorId chamado")
-
-  return tarefas.find(t => t.id === id)
-}
-
-// ATUALIZAR
-export async function atualizar(id, dados) {
-  console.log("Model: atualizar chamado")
-
-  const index = tarefas.findIndex(t => t.id === id)
-  if (index === -1) return null
-
-  tarefas[index] = { ...tarefas[index], ...dados, id }
-  return tarefas[index]
-}
-
-// CONCLUIR
-export async function alternarConcluido(id) {
-  console.log("Model: alternarConcluido chamado")
-
-  const tarefa = tarefas.find(t => t.id === id)
-  if (!tarefa) return null
-
-  tarefa.concluido = !tarefa.concluido
-  return tarefa
-}
-
-// REMOVER
-export async function remover(id) {
-  console.log("Model: remover chamado")
-
-  const index = tarefas.findIndex(t => t.id === id)
-  if (index === -1) return false
-
-  tarefas.splice(index, 1)
-  return true
-}
-
-
-export async function obterResumo() {
-  console.log("Model: obterResumo chamado")
-
-  const total = tarefas.length
-  const concluidas = tarefas.filter(t => t.concluido).length
-  const pendentes = total - concluidas
-
-  return { total, concluidas, pendentes }
-}
-
-
-export async function listarPendentes() {
-  console.log("Model: listarPendentes chamado")
-
-  return tarefas.filter(t => !t.concluido)
-}
+export default new TarefaModel()
